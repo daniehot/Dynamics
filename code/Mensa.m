@@ -1,3 +1,6 @@
-clear all
+clear all, clc;
 
-bblabla
+
+blablabla
+
+
