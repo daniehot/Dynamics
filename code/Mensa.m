@@ -8,8 +8,11 @@ Data.coord=zeros(Data.N, 2);
 Data.activ=zeros(Data.N,1) ;% active=0 not yet arrived, active=1 queueing, active=2 end 
 Data.time=zeros(Data.N,1);
 
+%Wall 
 
-
+wall = rectangle('Position',[0.1 0.2 0.05 0.04]);
+dmin = 0.05;
+dist = [0.1 0.1];
 
 
 startpoint= [0 ; 0];
@@ -34,6 +37,12 @@ for t=0:tend
         Data.coord(i,1)=Data.coord(i,1)+vektor(1)*dt+0.1*rand(1);
         Data.coord(i,2)=Data.coord(i,2)+vektor(2)*dt+0.1*rand(1);
   
+    if abs(Data.coord(i,1)-wall) < dmin && abs(Data.coord(i,2)-wall< dmin)
+       Data.coord(i,1) = Data.coord(i,1) + dist(1);
+       Data.coord(i,2) = Data.coord(i,2) + dist(2);
+    end 
+    
+    
     end
     
     for i=1:Data.N
@@ -72,5 +81,6 @@ end
     pause(0.1)
     
     plot(Data.coordx, Data.coordy,'*')
+   
     axis([startpoint(1) endpoint(1) startpoint(2) endpoint(2)])
     end
