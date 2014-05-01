@@ -1,7 +1,7 @@
 clear all, clc;
 
 
-Data.N=10;
+Data.N=100;
 %% Agents
 Data.number = (1:Data.N);
 Data.coord=zeros(Data.N, 2);
@@ -11,11 +11,12 @@ Data.time=zeros(Data.N,1);
 
 
 
+
 startpoint= [0 ; 0];
 endpoint= [1 ;1];
 vektor=endpoint-startpoint;
 dt=0.1;
-tend=15;
+tend=200;
 e=0.1
 
 for i=1:Data.N
@@ -30,8 +31,8 @@ for t=0:tend
     end
     
     for i=min(find(Data.activ==1)):min(find(Data.activ==1))+sum(Data.activ)-1
-        Data.coord(i,1)=Data.coord(i,1)+vektor(1)*dt;
-        Data.coord(i,2)=Data.coord(i,2)+vektor(2)*dt;
+        Data.coord(i,1)=Data.coord(i,1)+vektor(1)*dt+0.1*rand(1);
+        Data.coord(i,2)=Data.coord(i,2)+vektor(2)*dt+0.1*rand(1);
   
     end
     
