@@ -14,7 +14,7 @@ Data.coord=zeros(Data.N, 2); % Koordinaten x = 1 y = 2
 Data.activ=zeros(Data.N,1) ; % Zeigt Welchen Ort (Essen oder Kass) er aufsucht
 
 %Parameter
-Essensausgabebereich=5;     % 
+Essensausgabebereich=10;     % 
 tend=1;                     % Stunden 11:30-13:30 SChlusseinstellung 2
 b=2;                         %Breite
 a=2;                         % Schrittweite
@@ -116,13 +116,7 @@ if sum(Data.activ==1)>=1;
 end;
 
 if sum(Data.activ==2)>=1;
- for i=min(find(Data.activ==2)):min(find(Data.activ==1))+sum(Data.activ==1)-1;
-     Abstand=transpose(Data.coord(i,:))-endpoint(:,:,Data.cash(i));
-        if (Abstand(1)^2+Abstand(2)^2)^0.5<=Essensausgabebereich;
-             Data.activ(i)=3;
-             cells(Data.coord(i,1)-b:Data.coord(i,1)+b,Data.coord(i,2)-b:Data.coord(i,2)+b)=0;
-            end;
- end;
+ for i=min(find(Data.activ==2))
 end
 
      

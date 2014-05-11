@@ -1,7 +1,7 @@
 clear all, clc;
 
 
-Data.N=100;
+Data.N=1000;
 %% Agents
 Data.number = (1:Data.N);
 Data.coord=zeros(Data.N, 2);
@@ -10,7 +10,8 @@ Data.time=zeros(Data.N,1);
 
 %Wall 
 
-wall = rectangle('Position',[0.1 0.2 0.05 0.04]);
+wall1 = [0.5 0.5];
+wall2 = [0.5 0.6];
 dmin = 0.05;
 dist = [0.1 0.1];
 
@@ -37,20 +38,21 @@ for t=0:tend
         Data.coord(i,1)=Data.coord(i,1)+vektor(1)*dt+0.1*rand(1);
         Data.coord(i,2)=Data.coord(i,2)+vektor(2)*dt+0.1*rand(1);
   
-    if abs(Data.coord(i,1)-wall) < dmin && abs(Data.coord(i,2)-wall< dmin)
-       Data.coord(i,1) = Data.coord(i,1) + dist(1);
-       Data.coord(i,2) = Data.coord(i,2) + dist(2);
+    if abs(Data.coord(i,1)-wall1(1)) < dmin || abs(Data.coord(i,2)-wall1(2)< dmin)
+       Data.coord(i,1) = Data.coord(i,1) - dist(1);
+       Data.coord(i,2) = Data.coord(i,2) - dist(2);
     end 
     
-    
+ 
     end
     
     for i=1:Data.N
        if  Data.coord(i,1) >= endpoint(1) 
-           Data.activ(i)=0
+           Data.activ(i)=0;
        end
     end
     
+   
     
     
     
@@ -61,6 +63,7 @@ for t=0:tend
     
     pause(.3)
     plot(Data.coord(:,1),Data.coord(:,2),'*')
+    rectangle('Position',[0.5 0.5 0.1 0.1])
     axis([startpoint(1) endpoint(1) startpoint(2) endpoint(2)])
 end
  
@@ -81,6 +84,6 @@ end
     pause(0.1)
     
     plot(Data.coordx, Data.coordy,'*')
-   
+    rectangle('Position',[0.5 0.5 0.1 0.1]);
     axis([startpoint(1) endpoint(1) startpoint(2) endpoint(2)])
     end
