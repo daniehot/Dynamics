@@ -227,15 +227,7 @@ end
 
 %% Blöder Eckpunkt
 
-f = [80;80];
-dist = transpose(Data.coord(i,:))-f;
-if sqrt(dist(1)^2+dist(2)^2) <= 3
-    
-    Data.coord(i,1) = Data.coord(i,1);
-    Data.coord(i,2) = Data.coord(i,2)+2*a;
-end
-
-
+f = [80,8]
         
     end
     

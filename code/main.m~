@@ -1,4 +1,4 @@
-clear all, clc;
+clear all  clc;
 
 
 
@@ -6,7 +6,7 @@ clear all, clc;
 
 % Wahrscheinlichkeit, dass ein Agent kommt
 Prob_agentpertime=@(t) exp(t^2);
-Data.N = 1; % Anzahl Agents
+Data.N = 11; % Anzahl Agents
 Data.number = (1:Data.N); % Nummerierung
 Data.menu=zeros(Data.N,1); % Zeigt gewähltes Menu an
 Data.cash=zeros(Data.N,1); % zeigt gewählte Kasse 
@@ -14,7 +14,7 @@ Data.coord=zeros(Data.N, 2); % Koordinaten x = 1 y = 2
 Data.activ=zeros(Data.N,1) ; % Zeigt Welchen Ort (Essen oder Kass) er aufsucht
 
 %Parameter
-Essensausgabebereich=10;     % 
+Essensausgabebereich=5;     % 
 tend=1;                     % Stunden 11:30-13:30 SChlusseinstellung 2
 b=2;                         %Breite
 a=2;                         % Schrittweite
@@ -24,7 +24,6 @@ dt= 0.0002777777;           % Zeitschritt
 Aktivagent=1;
 t=0;
 
-
 %Bild
 A = imread('grundrissplan2.jpg','jpg')/255; % Altergrndrissplan Mensa
 %initialize the arrays
@@ -33,6 +32,9 @@ m=size(A,2);
 z = zeros(n,m);
 cells=A;
 cells(1:45,140:150)=1;
+cells(1:192,135:140)=2;
+cells(1:192,1:5)=2;
+cells()
 %how long for each case to stability or simple oscillators
 
 %build an image and display it
@@ -69,17 +71,19 @@ while t<= tend
             % Durch die Anzahl Agents durchgezählt
         elseif rand(1)<=Prob_agentpertime(t) % Bestimmt ob aktiviert oder
             % nicht
-            Data.activ(Aktivagent)=1; %Aktivierung
+            Data.activ(Aktivagent)=1; %Aktivierung 
+            [Data] = decision(Data,Prob_menu,Aktivagent); 
+
         end
         
     end
     
-    
-for i=1:Data.N
-    [Data] = decision2(Data,Prob_menu,Prob_cash,i); % Entscheidung 
-    %bezüglich Menü und Kasse
-end
-
+   
+    %% Decision making
+    % Ordnet allen Agents, welche eine Änderung in Data.activ erfahren
+    % haben ein Menu resp Kasse zu
+   
+ 
     %%%%%% Zellen aktuallisierung
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     for i=min(find(Data.activ==1)):max(find(Data.activ==1));
@@ -106,18 +110,17 @@ end
     %% Essensausgabe und Aktivierung für die Kasse
 if sum(Data.activ==1)>=1; 
         
-    for i=min(find(Data.activ==1)):min(find(Data.activ==1))+sum(Data.activ==1)-1;
+    for i=min(find(Data.activ==1)):max(find(Data.activ==1));
+        if Data.activ(i)==1;
          Abstand=transpose(Data.coord(i,:))-endpoint(:,:,Data.menu(i));
             if (Abstand(1)^2+Abstand(2)^2)^0.5<=Essensausgabebereich;
              Data.activ(i)=2;
-
+              [Data] = decision2(Data,Prob_cash,i);
             end; 
+        end;
     end;
 end;
 
-if sum(Data.activ==2)>=1;
- for i=min(find(Data.activ==2))
-end
 
      
   %Graphische Darstellung
@@ -127,5 +130,5 @@ end
         hold on
         plot(image(cells))
     pause(0.001)
-     t=t+dt
+     t=t+dt;
 end
